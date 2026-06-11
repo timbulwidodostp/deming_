@@ -2,4 +2,4 @@
 1
 2
 3
-p shumhaz Shumway (2001 JB) hazard procedure Use shumhaz With STATA 19
+p deming Deming regression Use deming With STATA 19
