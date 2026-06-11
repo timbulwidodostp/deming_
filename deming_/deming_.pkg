@@ -1,4 +1,8 @@
-D 'shumhaz': Shumway (2001 JB) hazard procedure Use shumhaz With STATA 19
+D 'deming': Deming regression Use Deming regression Use deming With STATA 19
 D
-F shumhaz.ado
-F shumhaz.hlp
+F _deming.ado
+F concord.ado
+F concord.dlg
+F concord.hlp
+F deming.ado
+F deming.hlp
