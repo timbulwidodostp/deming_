@@ -1,0 +1,102 @@
+{smcl}
+{* *! version 1.0.1 06mar2008}{...}
+{cmd:help deming}
+{hline}
+
+{title:Title}
+
+{p2colset 5 16 18 2}{...}
+{p2col :{hi: deming} {hline 2}}Deming regression{p_end}
+{p2colreset}{...}
+
+
+{title:Syntax}
+
+{p 8 16 2}
+{cmd:deming} {it:{help varname:yvar}} {it:{help varname:xvar}} {ifin} 
+   [{cmd:,} {it:options}]
+
+{synoptset 28 tabbed}{...}
+{synopthdr}
+{synoptline}
+{synopt :{opt lamb:da(#)}} specify ratio of measurement error variances of {it:xvar} relative to {it:yvar}; default is {cmd:lambda(1)}{p_end}
+{synopt :{opt var1(#)}} specify measurement error variance of {it:yvar}{p_end}
+{synopt :{opt var2(#)}} specify measurement error variance of {it:xvar}{p_end}
+{synopt :{opt cv1(#)}} specify precision of measurements around mean of {it:yvar} as a coefficient of variation (%){p_end}
+{synopt :{opt cv2(#)}} specify precision of measurements around mean of {it:xvar} as a coefficient of variation (%){p_end}
+{synopt :{opt dup:licates(yvardup xvardup)}} specify variables {it:yvardup} and {it:xvardup} containing duplicate measurements of {it:yvar} and {it:xvar}, respectively.{p_end}
+{synoptline}
+
+
+{title:Description}
+
+{pstd}
+{cmd:deming} performs Deming regression to analyze method-comparison data
+where both the {it:yvar} and {it:xvar} variables are measured with error
+(e.g., Cornbleet and Gochman 1979).  Standard errors are obtained by using the
+jackknife method (e.g., Kelly 1984).  You can specify either {cmd:lambda()},
+or {cmd:var1()} and {cmd:var2}, or {cmd:cv1()} and {cmd:cv2()}, or
+{cmd:duplicates()} with {cmd:deming}.  Options {cmd:lambda()}, {cmd:var1()},
+and {cmd:var2()} imply that measurement errors are constant throughout the
+range of the data and their variances are known.  In the case when
+measurement errors are proportional to the values measured (i.e., a constant
+coefficient of variation), rather than a constant, Cornbleet and Gochman
+(1979) suggest estimating measurement error variances by using measurement
+errors about the means of the two methods or from duplicates.  The former is
+available with {cmd:deming} when {cmd:cv1()} or {cmd:cv2()} is used.  The
+latter is implemented when option {cmd:duplicates()} is specified.
+
+{pstd}
+When option {cmd:duplicates()} is used, average values of {it:yvar} and
+{it:yvardup} are used as a dependent variable and average values of
+{it:xvar} and {it:xvardup} are used as an independent variable in the
+regression.
+
+
+{title:Examples}
+
+{pstd}Examples below use the {cmd:deming.dta} data file generated according to
+one of the simulation scenarios described in Cornbleet and Gochman (1979).
+Specifically, the true x-variable is generated from Normal(100,5^2), and the
+true y-variable is computed using the following linear relationship: 
+{bind:y = 10 + 0.9x}.  The observed variables {cmd:x1} and {cmd:y1} are then
+obtained by adding random variates from Normal(0,2^2) and Normal(0,4^2),
+respectively.  The measurement error variances are constant with
+{it:lambda}=(2^2)/(4^2)=0.25.  {cmd:x11} and {cmd:y11} are duplicate
+measurements.  {cmd:x2} and {cmd:y2} are generated assuming that measurement
+error variances are proportional to the respective true x- and y-variables
+with equal coefficients of variations of 4%.
+
+{pstd}To obtain estimates of coefficients from regression of {cmd:y1} on
+{cmd:x1}, we specify the ratio of measurement error variances in option
+{cmd:lambda(0.25)}:{p_end}
+{phang}{cmd:. use deming.dta}{p_end}
+{phang}{cmd:. deming y1 x1, lambda(0.25)}{p_end}
+
+{pstd}Alternatively, we can obtain the same results by using{p_end}
+{phang}{cmd:. deming y1 x1, var1(16) var2(4)}{p_end}
+
+{pstd}When duplicate measurements for each method are available, we can use 
+{cmd:duplicates()} to obtain results.{p_end}
+{phang}{cmd:. deming y1 x1, duplicates(y11 x11)}{p_end}
+
+{pstd}To obtain estimates of coefficients from regression of {cmd:y2} on
+{cmd:x2}, we specify coefficients of variation in options {cmd:cv1()} and
+{cmd:cv2()}{p_end}
+{phang}{cmd:. deming y2 x2, cv1(4) cv2(4)}{p_end}
+
+
+{title:Reference}
+
+Cornbleet, P. J., and N. Gochman. 1979.  Incorrect least-squares regression
+coefficients in method-comparison analysis.  {it:Clinical} {it:Chemistry} 25(3):432-438.
+
+Kelly, G. E. 1984. The influence function in the errors in variables problem.
+{it: The Annals of Statistics} 12:87-100.
+
+
+{title:Also see}
+
+{psee}
+Online: {helpb regress}, {helpb eivreg}
+{p_end}
