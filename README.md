@@ -1,6 +1,8 @@
 # deming_
 Deming regression Use deming With STATA 19
 
+https://www.youtube.com/watch?v=Arzw1AD1gQs
+
 Olah Data Semarang
 
 WA: +6285227746673 (085227746673)
